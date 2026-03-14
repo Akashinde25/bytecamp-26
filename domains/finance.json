@@ -1,0 +1,41 @@
+{
+  "domain": "finance",
+  "resource": "asset_price",
+  "resource_pool": {
+    "asset": "TechCorp Stock",
+    "total_shares": 10000,
+    "current_market_price": 105.0,
+    "currency": "USD"
+  },
+  "participants": [
+    {
+      "name": "BuyerFund",
+      "role": "buyer",
+      "objective": "minimize_cost",
+      "strategy": "aggressive",
+      "constraints": {
+        "max_price": 100,
+        "min_quantity": 500,
+        "max_quantity": 2000
+      }
+    },
+    {
+      "name": "SellerFirm",
+      "role": "seller",
+      "objective": "maximize_profit",
+      "strategy": "balanced",
+      "constraints": {
+        "min_price": 95,
+        "min_quantity": 500,
+        "max_quantity": 3000
+      }
+    },
+    {
+      "name": "MarketMediator",
+      "role": "mediator",
+      "objective": "ensure_fair_price_discovery",
+      "strategy": "cooperative",
+      "constraints": {}
+    }
+  ]
+}

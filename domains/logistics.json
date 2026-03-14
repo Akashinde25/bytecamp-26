@@ -1,0 +1,51 @@
+{
+  "domain": "logistics",
+  "resource": "truck_capacity_units",
+  "resource_pool": {
+    "total_capacity": 100,
+    "available_capacity": 100,
+    "unit": "pallets"
+  },
+  "participants": [
+    {
+      "name": "Supplier-A",
+      "role": "supplier",
+      "objective": "maximize_capacity_allocated",
+      "strategy": "aggressive",
+      "constraints": {
+        "min_capacity": 40,
+        "max_price_per_unit": 15,
+        "delivery_deadline_days": 3
+      }
+    },
+    {
+      "name": "Supplier-B",
+      "role": "supplier",
+      "objective": "maximize_capacity_allocated",
+      "strategy": "cooperative",
+      "constraints": {
+        "min_capacity": 30,
+        "max_price_per_unit": 18,
+        "delivery_deadline_days": 5
+      }
+    },
+    {
+      "name": "Transporter",
+      "role": "transporter",
+      "objective": "maximize_revenue",
+      "strategy": "balanced",
+      "constraints": {
+        "min_price_per_unit": 12,
+        "max_capacity": 100,
+        "min_capacity": 50
+      }
+    },
+    {
+      "name": "LogisticsMediator",
+      "role": "mediator",
+      "objective": "ensure_fair_allocation",
+      "strategy": "cooperative",
+      "constraints": {}
+    }
+  ]
+}

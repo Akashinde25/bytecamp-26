@@ -1,0 +1,51 @@
+{
+  "domain": "cloud",
+  "resource": "compute_units",
+  "resource_pool": {
+    "total_compute_units": 500,
+    "available_compute_units": 500,
+    "unit": "vCPUs"
+  },
+  "participants": [
+    {
+      "name": "ServiceA",
+      "role": "buyer",
+      "objective": "minimize_cost",
+      "strategy": "aggressive",
+      "constraints": {
+        "max_price_per_unit": 0.05,
+        "min_compute_units": 100,
+        "max_compute_units": 200
+      }
+    },
+    {
+      "name": "ServiceB",
+      "role": "buyer",
+      "objective": "minimize_cost",
+      "strategy": "balanced",
+      "constraints": {
+        "max_price_per_unit": 0.08,
+        "min_compute_units": 80,
+        "max_compute_units": 150
+      }
+    },
+    {
+      "name": "CloudProvider",
+      "role": "seller",
+      "objective": "maximize_utilization",
+      "strategy": "balanced",
+      "constraints": {
+        "min_price_per_unit": 0.04,
+        "max_compute_units": 500,
+        "min_compute_units": 50
+      }
+    },
+    {
+      "name": "CloudMediator",
+      "role": "mediator",
+      "objective": "ensure_optimal_allocation",
+      "strategy": "cooperative",
+      "constraints": {}
+    }
+  ]
+}
