@@ -1,0 +1,59 @@
+{
+  "domain": "logistics",
+  "resource": "truck_capacity",
+  "resource_pool": {
+    "total_units": 10,
+    "available_units": 10,
+    "unit_label": "truck loads",
+    "base_price_per_unit": 500
+  },
+  "participants": [
+    {
+      "name": "SupplierA",
+      "role": "buyer",
+      "objective": "Secure as many truck capacity units as possible at the lowest cost to efficiently move your perishable goods within budget.",
+      "constraints": {
+        "max_price_per_unit": 600,
+        "min_capacity_needed": 4,
+        "max_budget": 2400,
+        "delivery_deadline_hours": 24
+      },
+      "strategy": "Start with aggressive low bids, then gradually increase if needed. Prioritise securing minimum capacity above all else."
+    },
+    {
+      "name": "SupplierB",
+      "role": "buyer",
+      "objective": "Obtain sufficient truck capacity to meet your seasonal shipment targets while staying within your budget allocation.",
+      "constraints": {
+        "max_price_per_unit": 650,
+        "min_capacity_needed": 3,
+        "max_budget": 1950,
+        "preferred_time_window": "morning"
+      },
+      "strategy": "Cooperate initially, but compete if SupplierA claims too much capacity. Be willing to pay a slight premium for guaranteed units."
+    },
+    {
+      "name": "Transporter",
+      "role": "seller",
+      "objective": "Maximise revenue by selling all truck capacity units at or above your minimum acceptable price per unit.",
+      "constraints": {
+        "min_price_per_unit": 480,
+        "max_capacity": 10,
+        "preferred_batch_size": 5,
+        "fuel_surcharge_per_unit": 20
+      },
+      "strategy": "Hold firm on price early. Offer small discounts only for large batch purchases. Never go below minimum price."
+    },
+    {
+      "name": "Coordinator",
+      "role": "mediator",
+      "objective": "Facilitate a fair allocation of truck capacity between SupplierA and SupplierB while ensuring the Transporter achieves a sustainable price.",
+      "constraints": {
+        "fairness_weight": 0.5,
+        "min_acceptable_price": 490,
+        "max_allocation_imbalance": 2
+      },
+      "strategy": "Propose split allocations that satisfy both buyers' minimum needs. Use proportional fairness. If deadlocked, split remaining capacity equally."
+    }
+  ]
+}

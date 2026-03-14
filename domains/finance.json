@@ -1,0 +1,60 @@
+{
+  "domain": "finance",
+  "resource": "asset_units",
+  "resource_pool": {
+    "total_units": 1000,
+    "available_units": 1000,
+    "unit_label": "shares",
+    "base_price_per_unit": 100.0,
+    "market_volatility": 0.05
+  },
+  "participants": [
+    {
+      "name": "Buyer1",
+      "role": "buyer",
+      "objective": "Acquire a large block of asset units at or below your target price to build a controlling stake.",
+      "constraints": {
+        "max_price_per_unit": 108.0,
+        "target_volume": 450,
+        "max_total_spend": 47000,
+        "minimum_block_size": 200
+      },
+      "strategy": "Open with a low bid near fair value. Increase in small increments. Walk away if price exceeds max. Prefer a single large block transaction."
+    },
+    {
+      "name": "Buyer2",
+      "role": "buyer",
+      "objective": "Purchase a moderate block of asset units as a portfolio diversification play at a fair market price.",
+      "constraints": {
+        "max_price_per_unit": 105.0,
+        "target_volume": 300,
+        "max_total_spend": 31000,
+        "minimum_block_size": 100
+      },
+      "strategy": "Be opportunistic. If Buyer1 drives price up, wait and bid on remaining units. Accept a partial fill if price is attractive."
+    },
+    {
+      "name": "Seller",
+      "role": "seller",
+      "objective": "Liquidate asset holdings at the highest achievable price above your minimum threshold to realise gains.",
+      "constraints": {
+        "min_price_per_unit": 97.0,
+        "min_total_revenue": 95000,
+        "preferred_price_range": [100.0, 110.0],
+        "max_single_buyer_allocation": 600
+      },
+      "strategy": "Anchor at a high ask price. Reduce gradually under competitive pressure from two buyers. Exploit bidding competition to maximise price."
+    },
+    {
+      "name": "Broker",
+      "role": "mediator",
+      "objective": "Facilitate price discovery and a fair allocation of assets between competing buyers while ensuring the seller meets minimum revenue targets.",
+      "constraints": {
+        "fair_price_range": [99.0, 106.0],
+        "max_price_spread": 5.0,
+        "allocation_fairness_weight": 0.5
+      },
+      "strategy": "Use double-auction mechanism. Propose a mid-point clearing price when spread is narrow. If buyers are far apart, escalate in small steps towards seller ask."
+    }
+  ]
+}

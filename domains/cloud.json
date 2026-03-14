@@ -1,0 +1,59 @@
+{
+  "domain": "cloud",
+  "resource": "compute_units",
+  "resource_pool": {
+    "total_units": 100,
+    "available_units": 100,
+    "unit_label": "vCPU-hours",
+    "base_price_per_unit": 0.12
+  },
+  "participants": [
+    {
+      "name": "ServiceA",
+      "role": "buyer",
+      "objective": "Acquire enough compute units to run your ML training jobs within SLA constraints and budget limits.",
+      "constraints": {
+        "budget_limit": 6.0,
+        "min_compute_needed": 30,
+        "max_latency_ms": 200,
+        "sla_tier": "premium"
+      },
+      "strategy": "Bid aggressively for high-priority burst capacity. Accept slightly higher price if latency SLA is guaranteed."
+    },
+    {
+      "name": "ServiceB",
+      "role": "buyer",
+      "objective": "Obtain compute units for steady-state web serving workloads with a tight budget constraint.",
+      "constraints": {
+        "budget_limit": 4.5,
+        "min_compute_needed": 25,
+        "max_latency_ms": 500,
+        "sla_tier": "standard"
+      },
+      "strategy": "Prefer lower cost over performance. Accept fewer units if price drops below budget threshold."
+    },
+    {
+      "name": "ResourceBroker",
+      "role": "seller",
+      "objective": "Maximise cloud resource revenue by selling compute units at profitable margins while maintaining cluster utilisation above threshold.",
+      "constraints": {
+        "min_price_per_unit": 0.09,
+        "min_utilisation_target": 0.80,
+        "max_single_buyer_allocation": 60,
+        "reserved_capacity": 10
+      },
+      "strategy": "Sell in batches, prefer buyers with higher SLA tiers. Never drop below minimum price. Reserve 10 units for spot-market emergencies."
+    },
+    {
+      "name": "SLAMediator",
+      "role": "mediator",
+      "objective": "Ensure compute resources are allocated in accordance with SLA priorities, fairness, and cluster health targets.",
+      "constraints": {
+        "sla_priority_weight": 0.6,
+        "fairness_weight": 0.4,
+        "min_satisfaction_score": 0.7
+      },
+      "strategy": "Prioritise premium SLA buyers but ensure standard buyers receive at least their minimum. Use weighted fair queuing algorithm to propose allocations."
+    }
+  ]
+}
