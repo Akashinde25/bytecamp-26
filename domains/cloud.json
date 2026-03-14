@@ -2,9 +2,10 @@
   "domain": "cloud",
   "resource": "compute_units",
   "resource_pool": {
-    "total_compute_units": 500,
-    "available_compute_units": 500,
-    "unit": "vCPUs"
+    "total_compute_units": 100,
+    "price_per_unit": 0.12,
+    "unit": "vCPU-hours",
+    "currency": "USD"
   },
   "participants": [
     {
@@ -13,9 +14,10 @@
       "objective": "minimize_cost",
       "strategy": "aggressive",
       "constraints": {
-        "max_price_per_unit": 0.05,
-        "min_compute_units": 100,
-        "max_compute_units": 200
+        "budget_limit": 6.0,
+        "min_compute_needed": 30,
+        "max_latency_ms": 200,
+        "sla_tier": "premium"
       }
     },
     {
@@ -24,9 +26,10 @@
       "objective": "minimize_cost",
       "strategy": "balanced",
       "constraints": {
-        "max_price_per_unit": 0.08,
-        "min_compute_units": 80,
-        "max_compute_units": 150
+        "budget_limit": 8.0,
+        "min_compute_needed": 20,
+        "max_latency_ms": 400,
+        "sla_tier": "standard"
       }
     },
     {
@@ -36,8 +39,8 @@
       "strategy": "balanced",
       "constraints": {
         "min_price_per_unit": 0.04,
-        "max_compute_units": 500,
-        "min_compute_units": 50
+        "max_compute_units": 100,
+        "min_utilization_pct": 60
       }
     },
     {

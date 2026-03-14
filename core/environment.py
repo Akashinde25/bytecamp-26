@@ -134,20 +134,31 @@ def load_domain(domain_name: str) -> dict[str, Any]:
 
 
 def initialize_session(
-    domain_name: str,
+    domain_name: str | None = None,
     max_rounds: int = 10,
+    *,
+    session_id: str = "default",
+    domain: str | None = None,
 ) -> NegotiationSession:
     """
     Load a domain config and return a ready-to-run NegotiationSession.
 
     Args:
         domain_name: Filename stem of the domain JSON, e.g. "logistics".
+                     Can also be passed as keyword arg `domain` (alias).
         max_rounds:  Override the default round cap (default 10).
+        session_id:  Informational tag for this session (used by LLM Council).
+        domain:      Alias for domain_name (for LLM Council call compatibility).
 
     Returns:
         A fully configured NegotiationSession instance.
     """
-    loaded = load_domain(domain_name)
+    # Support both positional domain_name and keyword `domain` alias
+    resolved_domain = domain_name or domain
+    if not resolved_domain:
+        raise ValueError("Either domain_name or domain keyword argument must be provided.")
+
+    loaded = load_domain(resolved_domain)
 
     session = NegotiationSession(
         agents=loaded["agents"],
@@ -157,8 +168,9 @@ def initialize_session(
     )
 
     logger.info(
-        "Session initialized | domain=%s | agents=%d | max_rounds=%d",
+        "Session initialized | domain=%s | session_id=%s | agents=%d | max_rounds=%d",
         loaded["domain"],
+        session_id,
         len(loaded["agents"]),
         max_rounds,
     )

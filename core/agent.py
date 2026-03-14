@@ -305,5 +305,55 @@ class Agent(BaseModel):
         self.current_offer = {}
         self.status = "pending"
 
+    # ------------------------------------------------------------------
+    # Deterministic satisfaction scoring (used by LLM Council Stage 2)
+    # ------------------------------------------------------------------
+
+    def satisfaction_score(self, deal: dict[str, Any]) -> float:
+        """
+        Heuristic satisfaction score in [0.0, 1.0] based on constraint proximity.
+
+        Mediators always return 1.0 (they have no personal stake).
+        For each numeric constraint key, the score is:
+            clamp(actual_value / limit, 0.0, 1.0)
+        where `actual_value` is looked up in `deal` by the constraint key name,
+        or by the agent's name inside a nested `deal["allocation"]` dict.
+        Non-numeric constraints and missing deal keys each contribute 0.5.
+        The final score is the mean over all constraints (0.5 if no constraints).
+
+        Args:
+            deal: The proposed deal dict, e.g. {"budget_limit": 5.0, "units": 40}.
+
+        Returns:
+            A float in [0.0, 1.0].
+        """
+        if self.role.lower() == "mediator":
+            return 1.0
+
+        scores: list[float] = []
+
+        for key, limit in self.constraints.items():
+            if not isinstance(limit, (int, float)):
+                scores.append(0.5)
+                continue
+
+            # Try direct key, then nested allocation dict
+            actual = deal.get(key, deal.get("allocation", {}).get(self.name))
+            if actual is None:
+                scores.append(0.5)
+                continue
+
+            try:
+                actual_f = float(actual)
+                if limit == 0:
+                    scores.append(1.0 if actual_f == 0 else 0.0)
+                else:
+                    ratio = actual_f / limit
+                    scores.append(max(0.0, min(1.0, ratio)))
+            except (TypeError, ValueError):
+                scores.append(0.5)
+
+        return round(sum(scores) / len(scores), 4) if scores else 0.5
+
     def __str__(self) -> str:
         return f"Agent(name={self.name!r}, role={self.role!r}, status={self.status!r})"
