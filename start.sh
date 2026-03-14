@@ -27,9 +27,9 @@ cd "$PROJECT_ROOT/llm-council-master"
 osascript -e "tell application \"Terminal\" to do script \"
   cd '$PROJECT_ROOT/llm-council-master' && \
   source .venv/bin/activate && \
-  python -m uvicorn backend.main:app --host 0.0.0.0 --port 8001 --reload
+  PYTHONPATH='$PROJECT_ROOT' python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8001 --reload
 \"" 2>/dev/null || \
-  (python -m uvicorn backend.main:app --host 0.0.0.0 --port 8001 --reload &)
+  (PYTHONPATH="$PROJECT_ROOT" python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8001 --reload &)
 
 # ── 3. Start Vite frontend (port 5173) ────────────────────────────────────────
 FRONTEND_DIR="$PROJECT_ROOT/llm-council-master/frontend"
