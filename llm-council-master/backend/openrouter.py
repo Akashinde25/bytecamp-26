@@ -10,9 +10,15 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
+from pathlib import Path
 from typing import Any
 
 import httpx
+from dotenv import load_dotenv
+
+# Explicitly load the council .env so OPENROUTER_API_KEY is always available
+_COUNCIL_DIR = Path(__file__).resolve().parent.parent  # llm-council-master/
+load_dotenv(_COUNCIL_DIR / ".env", override=True)
 
 from backend.config import (
     CHAIRMAN_TEMPERATURE,

@@ -14,9 +14,14 @@ from __future__ import annotations
 
 import logging
 
+import os
+from pathlib import Path
+
 from dotenv import load_dotenv
 
-load_dotenv()
+# Explicitly load council .env (contains OPENROUTER_API_KEY)
+_COUNCIL_DIR = Path(__file__).resolve().parent.parent  # llm-council-master/
+load_dotenv(_COUNCIL_DIR / ".env", override=True)
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware

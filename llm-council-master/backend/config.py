@@ -15,8 +15,8 @@ from __future__ import annotations
 COUNCIL_MODELS: list[str] = [
     "openai/gpt-4o-mini",
     "anthropic/claude-3-haiku",
-    "google/gemini-flash-1.5",
-    "meta-llama/llama-3.1-8b-instruct:free",
+    "google/gemini-2.0-flash-001",
+    "meta-llama/llama-3.1-8b-instruct",
 ]
 
 # ── Chairman (Stage 3 synthesis) ──────────────────────────────────────────────
